@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+
+from fsmonitor import FSMonitor, get_fsmonitor
+import sys, subprocess
+
+if __name__ == "__main__":
+  import time
+  watchFolder = sys.argv[1]
+  command = sys.argv[2]
+
+  """
+    Calls command when a folder is modified
+  """
+  def shellCommander(monitored_path, event_path, event):
+    subprocess.call(command, shell=True)
+
+  try:
+    fsmonitor_class = get_fsmonitor()
+    fsmonitor = fsmonitor_class(shellCommander, True)
+    fsmonitor.start()
+    fsmonitor.add_dir(watchFolder, FSMonitor.CREATED | FSMonitor.MODIFIED | FSMonitor.DELETED)
+    time.sleep(86400)
+  except KeyboardInterrupt:
+    fsmonitor.stop()
+    sys.exit()
