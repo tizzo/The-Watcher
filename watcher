@@ -19,7 +19,7 @@ if __name__ == "__main__":
     fsmonitor = fsmonitor_class(shellCommander, True)
     fsmonitor.start()
     fsmonitor.add_dir(watchFolder, FSMonitor.CREATED | FSMonitor.MODIFIED | FSMonitor.DELETED)
-    time.sleep(86400)
+    time.sleep(10)
   except KeyboardInterrupt:
     fsmonitor.stop()
     sys.exit()
