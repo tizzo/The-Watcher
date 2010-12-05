@@ -4,15 +4,24 @@ from fsmonitor import FSMonitor, get_fsmonitor
 import sys, subprocess
 
 if __name__ == "__main__":
-  import time
-  watchFolder = sys.argv[1]
-  command = sys.argv[2]
+  try:
+    import time
+    watchFolder = sys.argv[1]
+    command = sys.argv[2]
+    print "Watching %s and waiting before running %s" % (watchFolder, command)
+  except:
+    print "An error occurred.\nUsage: watcher [path to folder] [command to run]"
+    sys.exit()
 
   """
     Calls command when a folder is modified
   """
   def shellCommander(monitored_path, event_path, event):
-    subprocess.call(command, shell=True)
+    try:
+      print 'Running command!'
+      subprocess.call(command, shell=True)
+    except:
+      print 
 
   try:
     fsmonitor_class = get_fsmonitor()
